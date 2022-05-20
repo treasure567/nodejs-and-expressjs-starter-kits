@@ -7,10 +7,11 @@ const https = require('https');
 const trenalyze = {
     token: process.env.TRENALYZE_TOKEN,
     sender: process.env.TRENALYZE_SENDER,
+    appurl: 'https://trenalyze.com'
 };
 
 class whatsappNotify {
-    static sendWaMessage(details) {
+    static sendWhatsappNotification(details, result) {
         const data = JSON.stringify({
             receiver: details.receiver,
             msgtext: details.message,
@@ -34,9 +35,14 @@ class whatsappNotify {
 
         const req = https.request(options, res => {
             console.log(`statusCode: ${res.statusCode}`)
+            result(null, res);
 
+            //return;
             res.on('data', d => {
-                process.stdout.write(d)
+
+                const info = process.stdout.write(d)
+
+                console.log(info);
             })
         })
 
