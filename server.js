@@ -1,9 +1,8 @@
+/* Importing the express module. */
 const express = require("express");
 
-
+/* Creating an instance of the express application. */
 const app = express();
-
-
 
 // parse requests of content-type - application/json
 app.use(express.json());
@@ -11,13 +10,19 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-// simple route
+
+/* This is a simple route that returns a json object with a message. */
 app.get("/", (req, res) => {
-    res.json({ message: "Welcome to DLSO Rest APi with Express" });
+    res.json({ message: "Welcome to The NodeJs/Express Starter Kit" });
 });
 
 
+/* Importing the usersRoutes.js file and passing the app object to it. */
 require("./src/routes/api/v1/usersRoutes.js")(app);
+
+
+/* Importing the authRoutes.js file and passing the app object to it. */
+require("./src/routes/api/v1/authRoutes.js")(app);
 
 
 // set port, listen for requests
