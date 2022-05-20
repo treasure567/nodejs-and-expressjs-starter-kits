@@ -1,0 +1,100 @@
+Login a User
+
+Endpoint => /api/v1/auth/login
+
+Request Method: POST
+
+Request Body: 
+{
+    "email": "email@example.com",
+    "password": "password"
+}
+
+Sample Response:
+{
+  "status": "success",
+  "data": {
+    "token": "jwttoken",
+    "first_name": "Example",
+    "last_name": "User",
+    "email": "email@example.com"
+  }
+}
+
+
+
+
+Register a User
+
+Endpoint => /api/v1/auth/register
+
+Request Method: POST
+
+Request Body: 
+{
+    "first_name": "Demo",
+    "last_name": "User",
+    "email": "example@mail.com",
+    "password": "1234567890",
+    "phone": "123456789"
+}
+
+Sample Response:
+{
+  "status": "success",
+  "data": {
+    "token": "jwt_token",
+    "data": {
+      "id": 4,
+      "first_name": "Demo",
+      "last_name": "User",
+      "email": "example@mail.com",
+      "phone": "123456789"
+    }
+  }
+}
+
+
+
+Request For Reset Link
+
+Endpoint => /api/v1/auth/forgot-password
+
+Request Method: POST
+
+Request Body: 
+{
+    "email": "email@example.com"
+}
+
+Sample Response:
+{
+  "status": "success",
+  "data": {
+    "message": "Reset Password Email Sent to email@example.com"
+  }
+}
+
+
+
+
+Reset User Password
+
+Endpoint => /api/v1/auth/reset-password
+
+Request Method: POST
+
+Request Body: 
+{
+    "token": "reset_token",
+    "new_password": "password"
+}
+
+Sample Response:
+{
+  "status": "success",
+  "data": {
+    "message": "Password Updated Successfully"
+  }
+}
+
