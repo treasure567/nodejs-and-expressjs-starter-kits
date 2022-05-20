@@ -55,7 +55,7 @@ exports.loginUser = async(req, res) => {
             /* Checking if the email exists in the database. */
             db.query(findUserByEmailQuery, [
                 email
-            ], function(err, result) {
+            ], async function(err, result) {
                 /* Checking if the email exists in the database. */
                 if (result.length > 0) {
                     /* Assigning the first user in the database to the user variable. */
@@ -66,24 +66,33 @@ exports.loginUser = async(req, res) => {
                     if (passwordIsValid) {
 
                         const details = {
-
+                            receiver: '2348157002782',
+                            message: 'Login on a new device',
+                            mediaurl: 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png',
+                            buttons: ''
                         }
 
-                        whatsappNotify.sendWhatsappNotification(details, (err, data) => {
-
-                            })
-                            /* Generating a token for the user. */
-                        const token = generateToken(user.id);
-                        /* Returning a success message if the user is logged in. */
-                        res.status(201).json({
-                            status: 'success',
-                            data: {
-                                token,
-                                first_name: user.first_name,
-                                last_name: user.last_name,
-                                email: user.email
+                        await whatsappNotify.sendWhatsappNotification(details, (err, data) => {
+                            if (err) {
+                                res.status(500).send({
+                                    message: err.message || "Some error occurred while sending whatsapp Message"
+                                });
+                            } else {
+                                console.log(data.statusCode);
+                                /* Generating a token for the user. */
+                                const token = generateToken(user.id);
+                                /* Returning a success message if the user is logged in. */
+                                res.status(201).json({
+                                    status: 'success',
+                                    data: {
+                                        token,
+                                        first_name: user.first_name,
+                                        last_name: user.last_name,
+                                        email: user.email
+                                    }
+                                });
                             }
-                        });
+                        })
                     } else {
                         /* Returning an error message if the password entered by the user is incorrect. */
                         res.status(401).json({
