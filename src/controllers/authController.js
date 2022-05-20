@@ -1,12 +1,18 @@
 /* Importing the user model. */
 const User = require("../models/users.js");
 
-
 /* Importing the signup function from the validator file. */
 const { signup, signin } = require('../utils/validator');
 
-
 const sendEMail = require('../utils/sendmail');
+
+const whatsappNotify = require('../utils/whatsappNotify');
+
+/* Importing the database connection. */
+const db = require("../config/db.config");
+
+/* A library that helps you hash passwords. */
+const bcrypt = require('bcryptjs');
 
 const randomToken = require('rand-token');
 
@@ -58,7 +64,15 @@ exports.loginUser = async(req, res) => {
                     const passwordIsValid = bcrypt.compareSync(password, user.password);
                     /* Checking if the password entered by the user is valid. */
                     if (passwordIsValid) {
-                        /* Generating a token for the user. */
+
+                        const details = {
+
+                        }
+
+                        whatsappNotify.sendWhatsappNotification(details, (err, data) => {
+
+                            })
+                            /* Generating a token for the user. */
                         const token = generateToken(user.id);
                         /* Returning a success message if the user is logged in. */
                         res.status(201).json({
