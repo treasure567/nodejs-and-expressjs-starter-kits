@@ -5,6 +5,11 @@ const User = require("../models/users.js");
 /* Importing the signup function from the validator file. */
 const { signup, signin } = require('../utils/validator');
 
+
+const sendEMail = require('../utils/sendmail');
+
+const randomToken = require('rand-token');
+
 /* Importing the generateToken function from the token.js file. */
 const { generate: generateToken } = require('../utils/token');
 
