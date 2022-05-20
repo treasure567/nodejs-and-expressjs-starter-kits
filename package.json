@@ -6,9 +6,9 @@
     "scripts": {
         "start": "node server.js",
         "dev": "nodemon",
-        "db:up": "node src/migrations/dbUp.js",
-        "db:down": "node src/migrations/dbDown.js",
-        "tables:up": "node src/migrations/tablesUp.js",
+        "db:up": "node src/database/migrations/dbUp.js",
+        "db:down": "node src/database/migrations/dbDown.js",
+        "tables:up": "node src/database/migrations/tablesUp.js",
         "db:init": "npm run db:up && npm run tables:up"
     },
     "repository": {
