@@ -34,23 +34,24 @@ class whatsappNotify {
         }
 
         const req = https.request(options, res => {
-            console.log(`statusCode: ${res.statusCode}`)
-            result(null, res);
+            console.log(`statusCode: ${res.statusCode}`);
+
+            console.log('headers:', res.headers);
 
             //return;
             res.on('data', d => {
 
-                const info = process.stdout.write(d)
+                process.stdout.write(d);
 
-                console.log(info);
             })
         })
 
         req.on('error', error => {
-            console.error(error)
+            console.error(error);
         })
 
         req.write(data)
+            // result(null, req);
         req.end()
 
     }
