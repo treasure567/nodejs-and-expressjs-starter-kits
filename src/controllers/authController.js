@@ -78,7 +78,7 @@ exports.loginUser = async(req, res) => {
                                     message: err.message || "Some error occurred while sending whatsapp Message"
                                 });
                             } else {
-                                console.log(data.statusCode);
+                                console.log(data);
                                 /* Generating a token for the user. */
                                 const token = generateToken(user.id);
                                 /* Returning a success message if the user is logged in. */
