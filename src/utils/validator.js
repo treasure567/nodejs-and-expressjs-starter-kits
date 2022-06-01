@@ -1,5 +1,5 @@
 /* Importing the validator module. */
-const validator = require('validator')
+const validator = require('validator');
 
 /* Exporting the signup function. */
 const signup = (email, password, phone, first_name, last_name) => {
