@@ -1,8 +1,5 @@
 require('dotenv').config();
-
 const https = require('https');
-
-
 
 const trenalyze = {
     token: process.env.TRENALYZE_TOKEN,
@@ -11,13 +8,20 @@ const trenalyze = {
 };
 
 class whatsappNotify {
+    static setconfig(token, sender) {
+        return {
+            token: token,
+            sender: sender,
+            appurl: 'https://trenalyze.com'
+        }
+    }
     static sendWhatsappNotification(details, result) {
         const data = JSON.stringify({
             receiver: details.receiver,
             msgtext: details.message,
-            sender: trenalyze.sender,
-            token: trenalyze.token,
-            appurl: trenalyze.appurl,
+            sender: this.setconfig().sender,
+            token: this.setconfig().token,
+            appurl: this.setconfig().appurl,
             mediaurl: details.mediaurl,
             buttons: details.buttons
         });
@@ -36,23 +40,27 @@ class whatsappNotify {
         const req = https.request(options, res => {
             console.log(`statusCode: ${res.statusCode}`);
 
-            console.log('headers:', res.headers);
-
-            //return;
+            // console.log('headers:', res.headers);
             res.on('data', d => {
 
                 process.stdout.write(d);
+                result(null, res);
+                return;
 
             })
         })
 
         req.on('error', error => {
             console.error(error);
+            const info = {
+
+            }
+            result(null, error);
+            return;
         })
 
-        req.write(data)
-            // result(null, req);
-        req.end()
+        req.write(data);
+        req.end();
 
     }
 }
