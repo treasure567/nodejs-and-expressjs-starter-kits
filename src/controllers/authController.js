@@ -1,3 +1,7 @@
+require('dotenv').config();
+
+const wa = require('trenalyze');
+
 /* Importing the user model. */
 const User = require("../models/users.js");
 
@@ -71,14 +75,20 @@ exports.loginUser = async(req, res) => {
                             mediaurl: 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png',
                             buttons: ''
                         }
+                        const token = process.env.TRENALYZE_TOKEN;
+                        const sender = process.env.TRENALYZE_SENDER;
 
-                        await whatsappNotify.sendWhatsappNotification(details, (err, data) => {
-                            if (err) {
+                        whatsappNotify.setconfig(token, sender);
+
+                        await whatsappNotify.sendWhatsappNotification(details, (error, data) => {
+                            if (error) {
+
+                            } else if (data.statusCode !== 200) {
                                 res.status(500).send({
-                                    message: err.message || "Some error occurred while sending whatsapp Message"
+                                    message: "Some error occurred while sending whatsapp Message"
                                 });
                             } else {
-                                console.log(data);
+                                //process.stdout.write(data);
                                 /* Generating a token for the user. */
                                 const token = generateToken(user.id);
                                 /* Returning a success message if the user is logged in. */
@@ -88,8 +98,9 @@ exports.loginUser = async(req, res) => {
                                         token,
                                         first_name: user.first_name,
                                         last_name: user.last_name,
-                                        email: user.email
-                                    }
+                                        email: user.email,
+                                    },
+                                    wa_response: true
                                 });
                             }
                         })
